@@ -10,7 +10,6 @@ public abstract class BaseController{
 
 	protected final String success = StateParameter.SUCCESS;
 	protected final String  fail = StateParameter.FAULT;
-
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public ModelMap getModelMap(String status, Object data, String msg){
@@ -23,7 +22,8 @@ public abstract class BaseController{
 	}
 
 	public String getUuid(){
-		String uuid = UUID.randomUUID().toString(); //获取UUID并转化为String对象
+		//获取UUID并转化为String对象
+		String uuid = UUID.randomUUID().toString();
 		uuid = uuid.replace("-", "");
 		return uuid;
 	}

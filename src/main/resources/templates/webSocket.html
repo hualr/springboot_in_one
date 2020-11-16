@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket</title>
+
+</head>
+<body>
+
+<p>【userId】 ：
+<div><input id="userId" name="userId" type="text" value="10"></div>
+<p>【toUserId】 ：
+<div><input id="toUserId" name="toUserId" type="text" value="20"></div>
+<p>【message】 ：
+<div><input id="contentText" name="contentText" type="text" value="hello websocket"></div>
+<p>操作 :
+<div><a onclick="openSocket()">开启socket</a></div>
+<p>【操作】 ：
+<div><a onclick="sendMessage()">发送消息</a></div>
+</body>
+
+<script>
+    var socket;
+
+    function openSocket() {
+        if (typeof (WebSocket) == "undefined") {
+            console.log("您的浏览器不支持WebSocket");
+        } else {
+            console.log("您的浏览器支持WebSocket");
+            //实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
+            var userId = document.getElementById('userId').value;
+            var socketUrl = "ws://127.0.0.1:22599/webSocket/" + userId;
+            console.log(socketUrl);
+            if (socket != null) {
+                socket.close();
+                socket = null;
+            }
+            socket = new WebSocket(socketUrl);
+            //打开事件
+            socket.onopen = function () {
+                console.log("websocket已打开");
+                //服务器编写send代码
+                socket.send(location.href + new Date());
+            };
+            //关闭事件
+            socket.onclose = function () {
+                console.log("websocket已关闭");
+            };
+
+            //发生了错误事件
+            socket.onerror = function () {
+                console.log("websocket发生了错误");
+            }
+
+            //获得消息事件  此方法会在收到服务器消息后被调用
+            socket.onmessage = function (msg) {
+                var serverMsg = "收到来自服务端的信息：" + msg.data;
+                console.log(serverMsg);
+            };
+        }
+    }
+    function sendMessage() {
+        if (typeof (WebSocket) == "undefined") {
+            console.log("您的浏览器不支持WebSocket");
+        } else {
+            // console.log("您的浏览器支持WebSocket");
+            var toUserId = document.getElementById('toUserId').value;
+            var contentText = document.getElementById('contentText').value;
+            var msg = '{"toUserId":"' + toUserId + '","contentText":"' + contentText + '"}';
+            console.log(msg);
+            // 此消息是浏览器发送给服务器的
+            socket.send("浏览器->服务器:" + msg);
+        }
+    }
+</script>
+</html>

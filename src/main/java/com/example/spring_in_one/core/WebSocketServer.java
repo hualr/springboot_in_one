@@ -33,22 +33,24 @@ public class WebSocketServer {
 
     //建立连接成功调用
     @OnOpen
-    public void onOpen(Session session, @PathParam(value = "sid") String userName){
+    public void onOpen(Session session, @PathParam(value = "sid") String userName) throws IOException {
         SESSION_POOLS.put(userName, session);
         addOnlineCount();
         System.out.println(userName + "加入webSocket！当前人数为" + ONLINE_NUM);
-        try {
-            sendMessage(session, "欢迎" + userName + "加入连接！");
-        } catch (IOException e) {
-            e.printStackTrace();
+        sendMessage(session, "欢迎" + userName + "加入连接！");
+        for(Session session1:SESSION_POOLS.values()){
+            session1.getBasicRemote().sendText("用户"+userName+"已经上线");
         }
     }
     //关闭连接时调用
     @OnClose
-    public void onClose(@PathParam(value = "sid") String userName){
+    public void onClose(@PathParam(value = "sid") String userName) throws IOException {
         SESSION_POOLS.remove(userName);
         subOnlineCount();
         System.out.println(userName + "断开webSocket连接！当前人数为" + ONLINE_NUM);
+        for(Session session:SESSION_POOLS.values()){
+            session.getBasicRemote().sendText("用户"+userName+"已经离线");
+        }
     }
 
     /**
@@ -68,7 +70,7 @@ public class WebSocketServer {
     public void sendMessage(Session session, String message) throws IOException {
         if(session != null){
             synchronized (session) {
-                System.out.println("发送数据给浏览器====>" + message);
+                System.out.println("下面的方法是服务器主动推送消息给浏览器" + message);
                 session.getBasicRemote().sendText(message);
             }
         }
@@ -79,10 +81,11 @@ public class WebSocketServer {
         throwable.printStackTrace();
     }
 
-    //收到客户端信息
+    //实际推送的消息
     @OnMessage
     public void onMessage(String message){
-        message = "浏览器端已收到消息：" + message;
+        //记住一点就好 首先,js中对应的onmessage是和这里对应的,这里主要是服务器push都给客户端
+        message = "这段消息是websocket受到服务器消息的时候自动触发的,具体消息为:" + message;
         System.out.println(message);
         for (Session session: SESSION_POOLS.values()) {
             try {

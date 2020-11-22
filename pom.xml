@@ -55,6 +55,13 @@
             </exclusions>
         </dependency>
 
+        <!-- Spring Boot配置注解执行器没有配置==>这个pom是用于在properties中自动获取提示: 输入前缀 自动提示-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

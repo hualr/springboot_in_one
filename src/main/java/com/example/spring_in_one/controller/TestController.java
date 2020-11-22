@@ -23,6 +23,9 @@ public class TestController {
     @Value("${num.num2}")
     private String num2;
 
+    @Value("#{@config3.ConfigName()}")
+    private String config3;
+
     /**
      * 要想获取值 必须注入的方式 而非new出来对象
      */
@@ -39,11 +42,15 @@ public class TestController {
         System.out.println(num1);
         System.out.println(num2);
         System.out.println(new Config1().getAge());
+
         System.out.println(config1.getAge());
         System.out.println(config1.getName());
         System.out.println(config1.getFriends());
+
         System.out.println(config2.getName());
         System.out.println(config2.getAge());
+
+        System.out.println(config3);
         return "OK";
     }
 

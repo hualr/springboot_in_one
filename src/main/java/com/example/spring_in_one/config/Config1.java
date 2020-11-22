@@ -17,6 +17,9 @@ import org.springframework.stereotype.Component;
  */
 @ConfigurationProperties(prefix = "com.example.config")
 
+/**
+ * 等效于一个<bean ></> 只有配置了这个才能被注入
+ */
 @Component
 public class Config1 {
     /**

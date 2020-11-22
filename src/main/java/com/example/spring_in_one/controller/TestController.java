@@ -1,6 +1,7 @@
 package com.example.spring_in_one.controller;
 
 import com.example.spring_in_one.config.Config1;
+import com.example.spring_in_one.config.Config2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,9 @@ public class TestController {
     @Autowired
     private Config1 config1;
 
+    @Autowired
+    private Config2 config2;
+
 
     @RequestMapping("test")
     @ResponseBody
@@ -38,6 +42,8 @@ public class TestController {
         System.out.println(config1.getAge());
         System.out.println(config1.getName());
         System.out.println(config1.getFriends());
+        System.out.println(config2.getName());
+        System.out.println(config2.getAge());
         return "OK";
     }
 

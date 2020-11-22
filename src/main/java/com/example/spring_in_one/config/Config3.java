@@ -19,7 +19,7 @@ public class Config3 {
     private String name;
 
     @Bean
-    public String ConfigName(){
+    public String configName(){
         return name;
     }
 }

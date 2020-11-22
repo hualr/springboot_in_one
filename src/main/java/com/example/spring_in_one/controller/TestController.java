@@ -37,6 +37,7 @@ public class TestController {
         System.out.println(new Config1().getAge());
         System.out.println(config1.getAge());
         System.out.println(config1.getName());
+        System.out.println(config1.getFriends());
         return "OK";
     }
 

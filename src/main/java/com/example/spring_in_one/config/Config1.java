@@ -1,5 +1,6 @@
 package com.example.spring_in_one.config;
 
+import java.util.List;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,7 @@ public class Config1 {
      */
     private String name="LiAn";
     private Integer age=16;
+    private List<String> friends;
 
     public String getName() {
         return name;
@@ -41,5 +43,13 @@ public class Config1 {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public List<String> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<String> friends) {
+        this.friends = friends;
     }
 }

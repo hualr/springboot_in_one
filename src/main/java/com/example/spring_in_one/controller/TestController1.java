@@ -20,6 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 /** 该注解等效于@Controller + @ResponseBody 使用该注解以为这由于返回的是responseBody导致无法返回jsp
  */
 @RequestMapping("/home")
+/**
+ * @RequestMapping(method = RequestMethod.GET)  getmapping
+ * @RequestMapping(method = RequestMethod.POST) postmapping
+ * 1. 用简写就是为了简单
+ * 2. 对于requestMapping 不写的话可以处理所有请求 这样显然是不合适的
+ *
+ */
 public class TestController1 {
     //ZNN 不写则默认返回主页
    //http://localhost:8080/home/

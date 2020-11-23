@@ -1,8 +1,13 @@
 package com.example.spring_in_one.service;
 
 import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -10,7 +15,9 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
-
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+//https://blog.csdn.net/lmb55/article/details/82470388
 /**
  * Author: zongqi
  * Function:
@@ -32,6 +39,30 @@ public class AspectService {
     public void before(JoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
         String name = joinPoint.getSignature().getName();
+        //AOP代理类的信息
+        System.out.println(joinPoint.getThis());
+        //代理的目标对象
+        System.out.println(joinPoint.getTarget());
+        Signature signature = joinPoint.getSignature();
+        //获取RequestAttributes
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        //从获取RequestAttributes中获取HttpServletRequest的信息
+        HttpServletRequest request = (HttpServletRequest) requestAttributes.resolveReference(RequestAttributes.REFERENCE_REQUEST);
+        //如果要获取Session信息的话，可以这样写：
+        //HttpSession session = (HttpSession) requestAttributes.resolveReference(RequestAttributes.REFERENCE_SESSION);
+
+        Enumeration<String> enumeration = request.getParameterNames();
+        Map<String,String> parameterMap = new HashMap<>();
+        while (enumeration.hasMoreElements()){
+            String parameter = enumeration.nextElement();
+            parameterMap.put(parameter,request.getParameter(parameter));
+        }
+        /*String str = JSON.toJSONString(parameterMap);
+        if(obj.length > 0) {
+            logger.info("请求的参数信息为："+str);
+        }*/
+        //代理的是哪一个方法
+        System.out.println("代理方法"+signature.getName()+",代理类名称:"+signature.getDeclaringTypeName());
         System.out.println("方法执行之前:"+"["+name+"]"+ Arrays.toString(args));
     }
 

@@ -1,8 +1,10 @@
 package com.example.spring_in_one.controller;
 
+import com.example.spring_in_one.pojo.Apple;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,5 +51,46 @@ public class TestController1 {
     @RequestMapping(value="/getMap3/{id}", method=RequestMethod.GET)
     public String getMapId3(@PathVariable("id") String id1) {
         return id1;
+    }
+
+    /**
+     * 1. 注意请求的写法
+     */
+    //http://localhost:8080/home/getMap4?id=1
+    @RequestMapping(value="/getMap4", method=RequestMethod.GET)
+    public String getMapId4(@RequestParam("id") String id1) {
+        return id1;
+    }
+
+    //http://localhost:8080/home/getMap5 允许默认值
+    @RequestMapping(value="/getMap5", method=RequestMethod.GET)
+    public String getMapId5(@RequestParam(value = "id",required = false,defaultValue="7") String id1) {
+        return id1;
+    }
+
+    //http://localhost:8080/home/getMap6
+
+    /**
+     * {
+     *     "color":"red",
+     *     "weight":1
+     * }
+     */
+    @RequestMapping(value="/getMap6", method=RequestMethod.GET)
+    public Apple getMapId6(@RequestBody Apple apple) {
+        return apple;
+    }
+
+    /**
+     * http://localhost:8080/home/getMap7?id=7
+     {
+     "color":"red",
+     "weight":1
+     }
+     */
+    @RequestMapping(value="/getMap7", method=RequestMethod.GET)
+    public Apple getMapId7(@RequestParam String id,@RequestBody Apple apple) {
+        System.out.println(id);
+        return apple;
     }
 }

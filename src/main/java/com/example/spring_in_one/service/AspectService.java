@@ -20,7 +20,15 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class AspectService {
-    @Before(value="execution(* com.example.spring_in_one.controller.*.*(..))")
+    /**
+     * 第一个* 表示的是返回值的类型是任意的 这里可以进行限制
+     * 第二个参数代表的是AOP服务所切的包名
+     * 第三个 ..表示的是当前包和子包
+     * 第二个 * 表示的是类名 此处可以自定义
+     * 第三个 * 表示的是方法名
+     * (..) 表示接收任何方法
+     */
+    @Before(value="execution(* com.example.spring_in_one.controller..*.*(..))")
     public void before(JoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
         String name = joinPoint.getSignature().getName();

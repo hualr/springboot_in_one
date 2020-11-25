@@ -35,7 +35,7 @@ public class AspectService {
      * 第三个 * 表示的是方法名
      * (..) 表示接收任何方法
      */
-    @Before(value="execution(* com.example.spring_in_one.controller..*.*(..))")
+    //@Before(value="execution(* com.example.spring_in_one.controller..*.*(..))")
     public void before(JoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
         String name = joinPoint.getSignature().getName();
@@ -66,7 +66,7 @@ public class AspectService {
         System.out.println("方法执行之前:"+"["+name+"]"+ Arrays.toString(args));
     }
 
-    @AfterReturning(value="execution(* com.example.spring_in_one.controller.*.*(..))" ,returning = "result")
+    @AfterReturning(value="execution(* *test2(..))" ,returning = "result")
     public void afterRunning(JoinPoint joinPoint,Object result){
         Object[] args = joinPoint.getArgs();
         String name = joinPoint.getSignature().getName();
@@ -77,7 +77,7 @@ public class AspectService {
         System.out.println("方法返回后执行:"+"["+name+"]"+ ",["+Arrays.toString(args)+"]"+",["+result+"]");
     }
 
-    @After(value="execution(* com.example.spring_in_one.controller.*.*(..))")
+    //@After(value="execution(* com.example.spring_in_one.controller.*.*(..))")
     public void after(JoinPoint joinPoint){
         Object[] args = joinPoint.getArgs();
         String name = joinPoint.getSignature().getName();
@@ -87,7 +87,7 @@ public class AspectService {
     /**
      * 即使抛出异常 也会执行方法后方法 但是不会执行返回方法
      */
-    @AfterThrowing(value = "execution (* com.example.spring_in_one.controller.*.*(..)))", throwing = "e")
+    //@AfterThrowing(value = "execution (* com.example.spring_in_one.controller.*.*(..)))", throwing = "e")
     public void throwException(JoinPoint joinPoint, Exception e) {
         String methodName = joinPoint.getSignature().getName();
         System.out.println("异常方法调用:" + methodName + " 异常信息" + e);
@@ -97,7 +97,7 @@ public class AspectService {
      * 环绕方法先于before
      * 后于after
      */
-    @Around(value="execution(* com.example.spring_in_one.controller.*.*(..))")
+    //@Around(value="execution(* com.example.spring_in_one.controller.*.*(..))")
     public Object rounding(ProceedingJoinPoint joinPoint) throws Throwable {
         long start = System.currentTimeMillis();
         System.out.println("环绕方法开始");
